@@ -68,8 +68,6 @@ ERT3.erd
 pom.xml
 README.md
 tasks.txt
-
-
 ```
 
 

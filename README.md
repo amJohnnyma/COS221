@@ -62,14 +62,8 @@ src/
 │       └── .dbconfig.properties
 └── target/
 .gitignore
-22.png
-blackbox.drawio.png
-COS_221_Assignment4_2025.pdf
-dbconfig.png
-ERT3.erd
 pom.xml
 README.md
-tasks.txt
 ```
 
 

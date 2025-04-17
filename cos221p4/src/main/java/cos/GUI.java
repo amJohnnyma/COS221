@@ -48,5 +48,20 @@ public class GUI
         this.frame.setVisible(true);
     }
 
+    public void addButton(String name, int function)
+    {
+        switch(function)
+        {
+            case 0:
+            break;
+            case 1:
+            break;
+            default:
+            break;
+        }
+    }
+
+    
+
 
 }

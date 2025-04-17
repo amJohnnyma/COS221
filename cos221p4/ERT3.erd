@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram version="1" name="ERT3">
+	<entities>
+		<data-source id="mariaDB-19642ff8958-5779af26a914718c">
+			<entity id="1" name="customers" fq-name="u23536030_northwind.customers">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="2" name="employee_privileges" fq-name="u23536030_northwind.employee_privileges">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="3" name="employees" fq-name="u23536030_northwind.employees">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="4" name="inventory_transaction_types" fq-name="u23536030_northwind.inventory_transaction_types">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="5" name="inventory_transactions" fq-name="u23536030_northwind.inventory_transactions">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="6" name="invoices" fq-name="u23536030_northwind.invoices">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="7" name="order_details" fq-name="u23536030_northwind.order_details">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="8" name="order_details_status" fq-name="u23536030_northwind.order_details_status">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="9" name="orders" fq-name="u23536030_northwind.orders">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="10" name="orders_status" fq-name="u23536030_northwind.orders_status">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="11" name="orders_tax_status" fq-name="u23536030_northwind.orders_tax_status">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="12" name="privileges" fq-name="u23536030_northwind.`privileges`">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="13" name="products" fq-name="u23536030_northwind.products">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="14" name="purchase_order_details" fq-name="u23536030_northwind.purchase_order_details">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="15" name="purchase_order_status" fq-name="u23536030_northwind.purchase_order_status">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="16" name="purchase_orders" fq-name="u23536030_northwind.purchase_orders">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="17" name="sales_reports" fq-name="u23536030_northwind.sales_reports">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="18" name="shippers" fq-name="u23536030_northwind.shippers">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="19" name="strings" fq-name="u23536030_northwind.strings">
+				<path name="u23536030_northwind"/>
+			</entity>
+			<entity id="20" name="suppliers" fq-name="u23536030_northwind.suppliers">
+				<path name="u23536030_northwind"/>
+			</entity>
+		</data-source>
+	</entities>
+	<relations>
+		<relation name="fk_orders_customers" fq-name="u23536030_northwind.orders.fk_orders_customers" type="fk" pk-ref="1" fk-ref="9"/>
+		<relation name="fk_orders_employees" fq-name="u23536030_northwind.orders.fk_orders_employees" type="fk" pk-ref="3" fk-ref="9"/>
+		<relation name="fk_purchase_orders_employees1" fq-name="u23536030_northwind.purchase_orders.fk_purchase_orders_employees1" type="fk" pk-ref="3" fk-ref="16"/>
+		<relation name="fk_inventory_transactions_inventory_transaction_types" fq-name="u23536030_northwind.inventory_transactions.fk_inventory_transactions_inventory_transaction_types" type="fk" pk-ref="4" fk-ref="5"/>
+		<relation name="fk_purchase_order_details_inventory_transactions" fq-name="u23536030_northwind.purchase_order_details.fk_purchase_order_details_inventory_transactions" type="fk" pk-ref="5" fk-ref="14"/>
+		<relation name="fk_order_details_order_details_status" fq-name="u23536030_northwind.order_details.fk_order_details_order_details_status" type="fk" pk-ref="8" fk-ref="7"/>
+		<relation name="fk_inventory_transactions_orders" fq-name="u23536030_northwind.inventory_transactions.fk_inventory_transactions_orders" type="fk" pk-ref="9" fk-ref="5"/>
+		<relation name="fk_invoices_orders" fq-name="u23536030_northwind.invoices.fk_invoices_orders" type="fk" pk-ref="9" fk-ref="6"/>
+		<relation name="fk_order_details_orders" fq-name="u23536030_northwind.order_details.fk_order_details_orders" type="fk" pk-ref="9" fk-ref="7"/>
+		<relation name="fk_orders_orders_status" fq-name="u23536030_northwind.orders.fk_orders_orders_status" type="fk" pk-ref="10" fk-ref="9"/>
+		<relation name="fk_orders_orders_tax_status" fq-name="u23536030_northwind.orders.fk_orders_orders_tax_status" type="fk" pk-ref="11" fk-ref="9"/>
+		<relation name="fk_inventory_transactions_products" fq-name="u23536030_northwind.inventory_transactions.fk_inventory_transactions_products" type="fk" pk-ref="13" fk-ref="5"/>
+		<relation name="fk_order_details_products" fq-name="u23536030_northwind.order_details.fk_order_details_products" type="fk" pk-ref="13" fk-ref="7"/>
+		<relation name="fk_purchase_order_details_products" fq-name="u23536030_northwind.purchase_order_details.fk_purchase_order_details_products" type="fk" pk-ref="13" fk-ref="14"/>
+		<relation name="fk_purchase_orders_purchase_order_status" fq-name="u23536030_northwind.purchase_orders.fk_purchase_orders_purchase_order_status" type="fk" pk-ref="15" fk-ref="16"/>
+		<relation name="fk_inventory_transactions_purchase_orders" fq-name="u23536030_northwind.inventory_transactions.fk_inventory_transactions_purchase_orders" type="fk" pk-ref="16" fk-ref="5"/>
+		<relation name="fk_purchase_order_details_purchase_orders" fq-name="u23536030_northwind.purchase_order_details.fk_purchase_order_details_purchase_orders" type="fk" pk-ref="16" fk-ref="14"/>
+		<relation name="fk_orders_shippers" fq-name="u23536030_northwind.orders.fk_orders_shippers" type="fk" pk-ref="18" fk-ref="9"/>
+		<relation name="fk_purchase_orders_suppliers" fq-name="u23536030_northwind.purchase_orders.fk_purchase_orders_suppliers" type="fk" pk-ref="20" fk-ref="16"/>
+	</relations>
+</diagram>

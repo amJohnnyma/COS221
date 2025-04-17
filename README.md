@@ -83,7 +83,7 @@ tasks.txt
 - Maven
 ---
 ### Database Setup
----
+
 1. Ensure your MariaDB server is running.
 
 ### Then run:

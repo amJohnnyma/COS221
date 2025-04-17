@@ -9,7 +9,7 @@ class GUI
         JFrame frame = new JFrame();
         JButton button = new JButton("Click");
 
-        button.setBound(15,15,200,50);
+        button.setBounds(15,15,200,50);
 
         frame.add(button);
 

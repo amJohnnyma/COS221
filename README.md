@@ -39,27 +39,26 @@ A multi-tab Java Swing GUI for managing employees, products, clients, and report
 ---
 
 ## Project Structure
-src/ 
-├── data/ 
-│ └── northwind/ 
-│ ├── northwind-schema.sql 
-│ └── northwind-data.sql
-│ └── northwind.mwb
-│ └── northwind-erd.pdf
+```
+src/
+├── data/
+│   └── northwind/
+│       ├── northwind-schema.sql
+│       ├── northwind-data.sql
+│       ├── northwind.mwb
+│       └── northwind-erd.pdf
 ├── main/
-│   ├── java/ 
-│   │    └── cos/ 
-│   │         ├── Main.java 
-│   │         ├── DatabaseConnector.java 
-│   │         ├── EmployeesTab.java 
-│   │         ├── ProductsTab.java 
-│   │         ├── NotificationsTab.java 
-│   │         └── ReportTab.java
-│   └──resources/
-│        └── .dbconfig.properties
-│
-└──target/
-
+│   ├── java/
+│   │   └── cos/
+│   │       ├── Main.java
+│   │       ├── DatabaseConnector.java
+│   │       ├── EmployeesTab.java
+│   │       ├── ProductsTab.java
+│   │       ├── NotificationsTab.java
+│   │       └── ReportTab.java
+│   └── resources/
+│       └── .dbconfig.properties
+└── target/
 .gitignore
 22.png
 blackbox.drawio.png

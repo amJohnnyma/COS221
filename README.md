@@ -73,31 +73,35 @@ tasks.txt
 
 
 ### Requirements
-
+---
 - Java 17+  
 - MariaDB Server (Running)  
 - IntelliJ / VS Code / Any IDE  
 - JDBC Driver (e.g., `mariadb-java-client-*.jar`)
 - Maven
-
+---
 ### Database Setup
-
+---
 1. Ensure your MariaDB server is running.
 
-# Then run:
+### Then run:
+```
 mysql -u root -p u23536030_northwind < /path/to/dir/northwind-schema.sql
+```
+```
 mysql -u root -p u23536030_northwind < /path/to/dir/northwind-data.sql
+```
 
-# Login to MariaDB
+### Login to MariaDB
 mysql -u root -p
 
-## How to Run
+### How to Run
 
-1. https://github.com/amJohnnyma/COS221.git
+1. ``` git clone https://github.com/amJohnnyma/COS221.git ```
 2. Ensure the .dbconfig.properties file exists and is correctly configured.
-3. Compile: mvn compile
-4. Run: mvn exec:java
-
+3. Compile: ```mvn compile```
+4. Run: ```mvn exec:java```
+---
 
 ### Author
 [Dewald Colesky] - [Github](https://github.com/amJohnnyma)

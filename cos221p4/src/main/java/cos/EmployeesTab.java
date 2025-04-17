@@ -1,9 +1,10 @@
 package cos;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
 import java.util.Vector;
 
@@ -19,32 +20,31 @@ public class EmployeesTab extends JPanel {
         JPanel topPanel = new JPanel(new FlowLayout());
         filterField = new JTextField(20);
         JButton filterButton = new JButton("Filter");
-        topPanel.add(new JLabel("Filter by name or city:"));
+        topPanel.add(new JLabel("Filter:"));
         topPanel.add(filterField);
         topPanel.add(filterButton);
         add(topPanel, BorderLayout.NORTH);
 
-        /*
-         * For the Employees tab, add a table component to show at a minimum the first name, last name, address,
-address line 2, city, region, postal code, phone, office where the employee works, and whether they are
-active (e.g., still employed).
-         */
-        // Table model and table
         String[] columnNames = {
-            "first_name", "last_name", "address",/* "Address 2",*/ "city",
-            "region", "zip_postal_code", "home_phone"/*, "Office", "Active"*/
+            "first_name", "last_name", "address", "email_address", "city",
+            "region", "zip_postal_code", "home_phone"
         };
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
-        // Load initial data
         loadEmployees(connection, null);
 
-        // Add filter action
-        filterButton.addActionListener(e -> {
-            String keyword = filterField.getText().trim();
-            loadEmployees(connection, keyword);
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(sorter);
+        filterField.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { filter(); }
+            public void removeUpdate(DocumentEvent e) { filter(); }
+            public void changedUpdate(DocumentEvent e) { filter(); }
+            private void filter() {
+                String text = filterField.getText();
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+            }
         });
     }
 
@@ -52,11 +52,11 @@ active (e.g., still employed).
 
     private void loadEmployees(Connection connection, String filter) {
         try {
-            tableModel.setRowCount(0); // clear table
-            String query = "SELECT first_name, last_name, address, city, country_region, zip_postal_code, home_phone" 
+            tableModel.setRowCount(0);
+            String query = "SELECT first_name, last_name, address, email_address, city, country_region, zip_postal_code, home_phone" 
                            +" FROM employees";
             if (filter != null && !filter.isEmpty()) {
-                query += " WHERE first_name LIKE ? OR last_name LIKE ? OR city LIKE ?";
+                query += " GROUP BY " + filter;
             }
 
             PreparedStatement stmt = connection.prepareStatement(query);
@@ -79,4 +79,6 @@ active (e.g., still employed).
             e.printStackTrace();
         }
     }
+    
+
 }

@@ -101,6 +101,8 @@ mysql -u root -p
 2. Ensure the .dbconfig.properties file exists and is correctly configured.
 3. Compile: ```mvn compile```
 4. Run: ```mvn exec:java```
+
+5. or open using vscode codespace
 ---
 
 ### Author

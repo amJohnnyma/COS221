@@ -2,15 +2,23 @@ package cos;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.table.*;
+import java.awt.event.*;
+import java.sql.*;
+import java.util.Vector;
 
 public class GUI {
     private JFrame frame;
     private JTabbedPane tabbedPane;
 
-    DatabaseConnector db = new DatabaseConnector();
-    
+    private DatabaseConnector db;
+    private Connection conn;
+
     public GUI() {
+        db = new DatabaseConnector();
         db.connect();
+        conn = db.getConnection();
+
         frame = new JFrame("Business Management System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 700);
@@ -18,7 +26,7 @@ public class GUI {
         tabbedPane = new JTabbedPane();
 
         // Add tabs
-        tabbedPane.addTab("Employees", buildEmployeesTab());
+        tabbedPane.addTab("Employees", new EmployeesTab(conn));
         tabbedPane.addTab("Products", buildProductsTab());
         tabbedPane.addTab("Report", buildReportTab());
         tabbedPane.addTab("Notifications", buildNotificationsTab());
@@ -27,15 +35,7 @@ public class GUI {
         frame.setVisible(true);
     }
 
-    private JPanel buildEmployeesTab() {
-        JPanel panel = new JPanel(new BorderLayout());
 
-        //  will replace this with a real JTable and filter later
-        JLabel label = new JLabel("Employee Table Here");
-        panel.add(label, BorderLayout.CENTER);
-
-        return panel;
-    }
 
     private JPanel buildProductsTab() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -73,3 +73,5 @@ public class GUI {
         frame.setVisible(true);
     }
 }
+
+

@@ -1,67 +1,75 @@
 package cos;
-import java.io.*;
+
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.*;
 
-public class GUI
-{
+public class GUI {
     private JFrame frame;
-    public GUI()
-    {
-        this.frame = new JFrame();
-        JButton button = new JButton("Click");
+    private JTabbedPane tabbedPane;
 
-        button.setBounds(15,15,200,50);
-
-        button.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                close();
-            }
-        });
-
-
-
-        this.frame.add(button);
-
-        this.frame.setSize(500,600);
-
-        this.frame.setLayout(null);
-
-        this.frame.setUndecorated(true);
-    }
-
-    public GUI(String var)
-    {
-
-    }
-
-    private void close()
-    {
-        this.frame.setVisible(false);
-        this.frame.dispose();
-    }
-
-    public void display()
-    {
-        this.frame.setVisible(true);
-    }
-
-    public void addButton(String name, int function)
-    {
-        switch(function)
-        {
-            case 0:
-            break;
-            case 1:
-            break;
-            default:
-            break;
-        }
-    }
-
+    DatabaseConnector db = new DatabaseConnector();
     
+    public GUI() {
+        db.connect();
+        frame = new JFrame("Business Management System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1000, 700);
 
+        tabbedPane = new JTabbedPane();
 
+        // Add tabs
+        tabbedPane.addTab("Employees", buildEmployeesTab());
+        tabbedPane.addTab("Products", buildProductsTab());
+        tabbedPane.addTab("Report", buildReportTab());
+        tabbedPane.addTab("Notifications", buildNotificationsTab());
+
+        frame.add(tabbedPane);
+        frame.setVisible(true);
+    }
+
+    private JPanel buildEmployeesTab() {
+        JPanel panel = new JPanel(new BorderLayout());
+
+        //  will replace this with a real JTable and filter later
+        JLabel label = new JLabel("Employee Table Here");
+        panel.add(label, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+    private JPanel buildProductsTab() {
+        JPanel panel = new JPanel(new BorderLayout());
+
+        JButton addButton = new JButton("Add Product");
+        // Add action listener to open popup here
+
+        panel.add(addButton, BorderLayout.NORTH);
+        panel.add(new JLabel("Products Table Here"), BorderLayout.CENTER);
+
+        return panel;
+    }
+
+    private JPanel buildReportTab() {
+        JPanel panel = new JPanel(new BorderLayout());
+
+        panel.add(new JLabel("Live report generated on tab open"), BorderLayout.CENTER);
+
+        //dynamic reportsd
+
+        return panel;
+    }
+
+    private JPanel buildNotificationsTab() {
+        JPanel panel = new JPanel(new BorderLayout());
+
+        panel.add(new JLabel("Client Notifications Management"), BorderLayout.CENTER);
+
+        // This tab will manage add, update, delete, list clients + search inactive ones
+
+        return panel;
+    }
+
+    public void display() {
+        frame.setVisible(true);
+    }
 }

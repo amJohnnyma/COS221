@@ -1,0 +1,89 @@
+Task 1:
+    src/data/Northwind
+
+Task 2: 
+    2.1: DBeaver
+    2.2: 22.png
+
+Task 3:
+    3.1: ERT3.erd
+    3.2:
+
+DATA TYPES:
+
+supplier_ids: LONGTEXT
+    can be NULL
+
+id: INT(11)
+    Cannot be NULL
+    Primary Key: Uniquely identifies each product.
+    Auto Increment: Automatically increases with each new record.
+
+product_code: VARCHAR(25)
+    Indexed: Creates an index on this column for fast lookups.
+    can be NULL
+
+product_name: VARCHAR(50)
+    can be NULL
+
+description: LONGTEXT
+    can be NULL
+
+standard_cost: DECIMAL(19,4)
+    Default value = 0
+    can be NULL
+
+list_price: DECIMAL(19,4)
+    not nullable
+    Default value = 0
+
+reorder_level: int(11)
+    can be null
+
+target_level: INT(11)
+    can be null
+
+quality_per_unit: VARCHAR(50)
+    can be null
+
+discontinued: TINYINT(1)
+    can be null
+
+minimum_reorder_quantity: INT(11)
+    can be null
+
+category: VARCHAR(50)
+    can be null
+
+attachments: LONGBLOB
+    can be null
+
+CONSTRAINTS:
+Primary Key:
+
+    Column: id
+
+
+Auto Increment:
+
+    Column: id
+
+
+Not Null:
+
+    Columns: id, list_price, discontinued
+
+    These fields cannot be left empty (NULL).
+
+Default Value:
+
+    Columns: standard_cost, list_price (default to 0.0000).
+
+Index:
+
+    Column: product_code
+
+LINKS:
+
+The Products table is linked to other tables like Suppliers, Categories, OrderDetails, and an inventory management table. 
+These relationships are not explicitly enforced with foreign key constraints in the schema but are inferred based on the table structure.

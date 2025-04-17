@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.*;
+//import java.sql.*;
 
 
 public class DatabaseConnector {

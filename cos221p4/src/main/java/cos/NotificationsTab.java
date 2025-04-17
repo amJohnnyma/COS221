@@ -3,7 +3,6 @@ package cos;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,9 +14,9 @@ class Customer {
 
     // Constructor
     public Customer(int id, String firstName, String lastName, String email, String phone,
-                    String mobilePhone, String jobTitle, String company, String homePhone,
-                    String faxNumber, String address, String city, String stateProvince,
-                    String zipPostalCode, String countryRegion, String webPage, String notes) {
+            String mobilePhone, String jobTitle, String company, String homePhone,
+            String faxNumber, String address, String city, String stateProvince,
+            String zipPostalCode, String countryRegion, String webPage, String notes) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,8 +41,6 @@ public class NotificationsTab extends JPanel {
 
     private java.util.List<Customer> customers = new ArrayList<>();
 
-
-
     private JTable clientsTable;
     private DefaultTableModel tableModel;
 
@@ -64,23 +61,22 @@ public class NotificationsTab extends JPanel {
     private JTextField webPageField = new JTextField();
     private JTextArea notesField = new JTextArea();
 
-    private    String firstName; 
-    private   String lastName;
-    private   String email; 
-    private   String phone ;
-    private   String mobilePhone ;
-    private   String jobTitle;
-    private   String company ;
-    private   String homePhone;
-        private   String faxNumber ;
-        private   String address ;
-        private   String city ;
-        private   String stateProvince;
-        private   String zipPostalCode ;
-        private  String countryRegion ;
-        private  String webPage ;
-        private  String notes ;
-    
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String mobilePhone;
+    private String jobTitle;
+    private String company;
+    private String homePhone;
+    private String faxNumber;
+    private String address;
+    private String city;
+    private String stateProvince;
+    private String zipPostalCode;
+    private String countryRegion;
+    private String webPage;
+    private String notes;
 
     private JButton addButton;
     private JButton updateButton;
@@ -92,7 +88,7 @@ public class NotificationsTab extends JPanel {
         setLayout(new BorderLayout());
 
         // Top: Table
-        tableModel = new DefaultTableModel(new String[]{"ID", "Name", "Email", "Phone"}, 0);
+        tableModel = new DefaultTableModel(new String[] { "ID", "Name", "Email", "Phone" }, 0);
         clientsTable = new JTable(tableModel);
         clientsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(clientsTable);
@@ -100,8 +96,7 @@ public class NotificationsTab extends JPanel {
 
         // Bottom: Form + Buttons
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
- 
-        
+
         // Set layout and add the fields to your panel/form
         // Example:
         formPanel.add(new JLabel("Company:"));
@@ -163,12 +158,12 @@ public class NotificationsTab extends JPanel {
             if (!e.getValueIsAdjusting() && clientsTable.getSelectedRow() != -1) {
                 int row = clientsTable.getSelectedRow();
                 selectedClientId = Integer.parseInt(tableModel.getValueAt(row, 0).toString());
-        
+
                 Customer selected = customers.stream()
-                    .filter(c -> c.id == selectedClientId)
-                    .findFirst()
-                    .orElse(null);
-        
+                        .filter(c -> c.id == selectedClientId)
+                        .findFirst()
+                        .orElse(null);
+
                 if (selected != null) {
                     firstNameField.setText(selected.firstName);
                     lastNameField.setText(selected.lastName);
@@ -189,92 +184,92 @@ public class NotificationsTab extends JPanel {
                 }
             }
         });
-        
+
     }
 
     private void loadClients(Connection conn) {
         tableModel.setRowCount(0);
         customers.clear();
-    
+
         try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM customers")) {
-    
+                ResultSet rs = stmt.executeQuery("SELECT * FROM customers")) {
+
             while (rs.next()) {
                 Customer customer = new Customer(
-                    rs.getInt("id"),
-                    rs.getString("first_name"),
-                    rs.getString("last_name"),
-                    rs.getString("email_address"),
-                    rs.getString("business_phone"),
-                    rs.getString("mobile_phone"),
-                    rs.getString("job_title"),
-                    rs.getString("company"),
-                    rs.getString("home_phone"),
-                    rs.getString("fax_number"),
-                    rs.getString("address"),
-                    rs.getString("city"),
-                    rs.getString("state_province"),
-                    rs.getString("zip_postal_code"),
-                    rs.getString("country_region"),
-                    rs.getString("web_page"),
-                    rs.getString("notes")
-                );
-    
+                        rs.getInt("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email_address"),
+                        rs.getString("business_phone"),
+                        rs.getString("mobile_phone"),
+                        rs.getString("job_title"),
+                        rs.getString("company"),
+                        rs.getString("home_phone"),
+                        rs.getString("fax_number"),
+                        rs.getString("address"),
+                        rs.getString("city"),
+                        rs.getString("state_province"),
+                        rs.getString("zip_postal_code"),
+                        rs.getString("country_region"),
+                        rs.getString("web_page"),
+                        rs.getString("notes"));
+
                 customers.add(customer);
-    
+
                 // Only show selected columns in the table
-                tableModel.addRow(new Object[]{
-                    customer.id,
-                    customer.firstName + " " + customer.lastName,
-                    customer.email,
-                    customer.homePhone
+                tableModel.addRow(new Object[] {
+                        customer.id,
+                        customer.firstName + " " + customer.lastName,
+                        customer.email,
+                        customer.homePhone
                 });
             }
-    
+
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error loading clients: " + e.getMessage());
         }
     }
 
-    private String getValueOrBlank(Object value) {
-        return (value == null || value.toString().isEmpty()) ? "blank" : value.toString();
-    }
-
 
     private void addClient(Connection conn) {
         // Get all the input values
-         firstName = firstNameField.getText(); 
-         lastName = lastNameField.getText();
-         email = emailAddressField.getText();
-         phone = businessPhoneField.getText(); 
-         mobilePhone = mobilePhoneField.getText();
-         jobTitle = jobTitleField.getText();
-         company = companyField.getText();
-         homePhone = homePhoneField.getText();
-         faxNumber = faxNumberField.getText();
-         address = addressField.getText();
-         city = cityField.getText();
-         stateProvince = stateProvinceField.getText();
-         zipPostalCode = zipPostalCodeField.getText();
-         countryRegion = countryRegionField.getText();
-         webPage = webPageField.getText();
-         notes = notesField.getText();
-    
+        firstName = firstNameField.getText();
+        lastName = lastNameField.getText();
+        email = emailAddressField.getText();
+        phone = businessPhoneField.getText();
+        mobilePhone = mobilePhoneField.getText();
+        jobTitle = jobTitleField.getText();
+        company = companyField.getText();
+        homePhone = homePhoneField.getText();
+        faxNumber = faxNumberField.getText();
+        address = addressField.getText();
+        city = cityField.getText();
+        stateProvince = stateProvinceField.getText();
+        zipPostalCode = zipPostalCodeField.getText();
+        countryRegion = countryRegionField.getText();
+        webPage = webPageField.getText();
+        notes = notesField.getText();
+
         // Validate required fields: first_name, last_name, and email_address
         if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill in all required fields (First Name, Last Name, Email Address).");
+            JOptionPane.showMessageDialog(this,
+                    "Please fill in all required fields (First Name, Last Name, Email Address).");
             return;
         }
-    
-        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to add this client?", "Confirm Add", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) return;
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to add this client?", "Confirm Add",
+                JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION)
+            return;
 
         try (PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO customers (first_name, last_name, email_address, mobile_phone, job_title, company, home_phone, " +
-                "business_phone, fax_number, address, city, state_province, zip_postal_code, country_region, web_page, notes) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-            
+                "INSERT INTO customers (first_name, last_name, email_address, mobile_phone, job_title, company, home_phone, "
+                        +
+                        "business_phone, fax_number, address, city, state_province, zip_postal_code, country_region, web_page, notes) "
+                        +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+
             stmt.setString(1, firstName);
             stmt.setString(2, lastName);
             stmt.setString(3, email);
@@ -291,50 +286,52 @@ public class NotificationsTab extends JPanel {
             stmt.setString(14, countryRegion);
             stmt.setString(15, webPage);
             stmt.setString(16, notes);
-    
+
             stmt.executeUpdate();
-            loadClients(conn);  // Assuming this loads from the `customers` table
+            loadClients(conn); // Assuming this loads from the `customers` table
             clearForm();
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error adding client: " + e.getMessage());
         }
     }
-    
 
     private void updateClient(Connection conn) {
         if (selectedClientId == -1) {
             JOptionPane.showMessageDialog(this, "Please select a client to update.");
             return;
         }
-    
+
         // Get all the input values
-         firstName = firstNameField.getText().isEmpty() ? "" : firstNameField.getText();
-         lastName = lastNameField.getText().isEmpty() ? "" : lastNameField.getText();
-         email = emailAddressField.getText().isEmpty() ? "" : emailAddressField.getText();
-         phone = businessPhoneField.getText().isEmpty() ? "" : businessPhoneField.getText(); 
-         mobilePhone = mobilePhoneField.getText().isEmpty() ? "" : mobilePhoneField.getText();
-         jobTitle = jobTitleField.getText().isEmpty() ? "" : jobTitleField.getText();
-         company = companyField.getText().isEmpty() ? "" : companyField.getText();
-         homePhone = homePhoneField.getText().isEmpty() ? "" : homePhoneField.getText();
-         faxNumber = faxNumberField.getText().isEmpty() ? "" : faxNumberField.getText();
-         address = addressField.getText().isEmpty() ? "" : addressField.getText();
-         city = cityField.getText().isEmpty() ? "" : cityField.getText();
-         stateProvince = stateProvinceField.getText().isEmpty() ? "" : stateProvinceField.getText();
-         zipPostalCode = zipPostalCodeField.getText().isEmpty() ? "" : zipPostalCodeField.getText();
-         countryRegion = countryRegionField.getText().isEmpty() ? "" : countryRegionField.getText();
-         webPage = webPageField.getText().isEmpty() ? "" : webPageField.getText();
-         notes = notesField.getText().isEmpty() ? "" : notesField.getText();
-        
-    
-         int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to update this client?", "Confirm update", JOptionPane.YES_NO_OPTION);
-         if (confirm != JOptionPane.YES_OPTION) return;
+        firstName = firstNameField.getText().isEmpty() ? "" : firstNameField.getText();
+        lastName = lastNameField.getText().isEmpty() ? "" : lastNameField.getText();
+        email = emailAddressField.getText().isEmpty() ? "" : emailAddressField.getText();
+        phone = businessPhoneField.getText().isEmpty() ? "" : businessPhoneField.getText();
+        mobilePhone = mobilePhoneField.getText().isEmpty() ? "" : mobilePhoneField.getText();
+        jobTitle = jobTitleField.getText().isEmpty() ? "" : jobTitleField.getText();
+        company = companyField.getText().isEmpty() ? "" : companyField.getText();
+        homePhone = homePhoneField.getText().isEmpty() ? "" : homePhoneField.getText();
+        faxNumber = faxNumberField.getText().isEmpty() ? "" : faxNumberField.getText();
+        address = addressField.getText().isEmpty() ? "" : addressField.getText();
+        city = cityField.getText().isEmpty() ? "" : cityField.getText();
+        stateProvince = stateProvinceField.getText().isEmpty() ? "" : stateProvinceField.getText();
+        zipPostalCode = zipPostalCodeField.getText().isEmpty() ? "" : zipPostalCodeField.getText();
+        countryRegion = countryRegionField.getText().isEmpty() ? "" : countryRegionField.getText();
+        webPage = webPageField.getText().isEmpty() ? "" : webPageField.getText();
+        notes = notesField.getText().isEmpty() ? "" : notesField.getText();
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to update this client?",
+                "Confirm update", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION)
+            return;
         try (
-            PreparedStatement stmt = conn.prepareStatement(
-                "UPDATE customers SET first_name=?, last_name=?, email_address=?, mobile_phone=?, job_title=?, company=?, home_phone=?, " +
-                "business_phone=?, fax_number=?, address=?, city=?, state_province=?, zip_postal_code=?, country_region=?, web_page=?, notes=? " +
-                "WHERE id=?")) {
-    
+                PreparedStatement stmt = conn.prepareStatement(
+                        "UPDATE customers SET first_name=?, last_name=?, email_address=?, mobile_phone=?, job_title=?, company=?, home_phone=?, "
+                                +
+                                "business_phone=?, fax_number=?, address=?, city=?, state_province=?, zip_postal_code=?, country_region=?, web_page=?, notes=? "
+                                +
+                                "WHERE id=?")) {
+
             stmt.setString(1, firstName);
             stmt.setString(2, lastName);
             stmt.setString(3, email);
@@ -352,16 +349,15 @@ public class NotificationsTab extends JPanel {
             stmt.setString(15, webPage);
             stmt.setString(16, notes);
             stmt.setInt(17, selectedClientId);
-    
+
             stmt.executeUpdate();
-            loadClients(conn);  // Assuming this loads from the `clients` table
+            loadClients(conn); // Assuming this loads from the `clients` table
             clearForm();
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error updating client: " + e.getMessage());
         }
     }
-    
 
     private void deleteClient(Connection conn) {
         if (selectedClientId == -1) {
@@ -369,11 +365,13 @@ public class NotificationsTab extends JPanel {
             return;
         }
 
-        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this client?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) return;
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this client?",
+                "Confirm Delete", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION)
+            return;
 
         try (
-             PreparedStatement stmt = conn.prepareStatement("DELETE FROM customers WHERE id=?")) {
+                PreparedStatement stmt = conn.prepareStatement("DELETE FROM customers WHERE id=?")) {
             stmt.setInt(1, selectedClientId);
             stmt.executeUpdate();
             loadClients(conn);

@@ -2,7 +2,7 @@
 
 A multi-tab Java Swing GUI for managing employees, products, clients, and reports using a **MariaDB** backend. Built as a university practical assignment 4 for COS221.
 
-[PDF Submission](https://docs.google.com/document/d/1fvpxCKiTZTQ3VOhYBC-psxKQofzsLGdpl6GZVxZgUAE/edit?usp=sharing)
+[Submission](https://docs.google.com/document/d/1fvpxCKiTZTQ3VOhYBC-psxKQofzsLGdpl6GZVxZgUAE/edit?usp=sharing)
 
 ---
 

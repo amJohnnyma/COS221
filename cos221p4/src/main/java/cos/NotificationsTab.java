@@ -1,7 +1,11 @@
 package cos;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -38,6 +42,11 @@ class Customer {
 }
 
 public class NotificationsTab extends JPanel {
+
+
+    private enum ClientFilterMode {
+    ACTIVE, INACTIVE, ALL
+}
 
     private java.util.List<Customer> customers = new ArrayList<>();
 
@@ -81,14 +90,25 @@ public class NotificationsTab extends JPanel {
     private JButton addButton;
     private JButton updateButton;
     private JButton deleteButton;
+    private JButton toggleFilterButton;
+    private JButton showAllButton;
+
+    private JTextField filterField;
+
 
     private int selectedClientId = -1;
-
+    private ClientFilterMode filterMode = ClientFilterMode.ACTIVE;
     public NotificationsTab(Connection connection) {
         setLayout(new BorderLayout());
 
         // Top: Table
-        tableModel = new DefaultTableModel(new String[] { "ID", "Name", "Email", "Phone" }, 0);
+        tableModel = new DefaultTableModel(new String[] { "ID", "Name", "Email", "Phone", "Active" }, 0);
+        //To get active -- rest inactive
+        //In table customers use id
+        //Match id (customers) to customer_id (orders)
+        //Check if shipped_date is past
+
+
         clientsTable = new JTable(tableModel);
         clientsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(clientsTable);
@@ -137,17 +157,31 @@ public class NotificationsTab extends JPanel {
         deleteButton = new JButton("Delete Client");
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
+        toggleFilterButton = new JButton("Show Inactive Clients");
+        toggleFilterButton.addActionListener(e -> {
+            if (filterMode == ClientFilterMode.ACTIVE) {
+                filterMode = ClientFilterMode.INACTIVE;
+                toggleFilterButton.setText("Show Active Clients");
+            } else {
+                filterMode = ClientFilterMode.ACTIVE;
+                toggleFilterButton.setText("Show Inactive Clients");
+            }
+            showAllButton.setText("Show All Clients");
+            loadClients(connection);
+        });
+        
+        showAllButton = new JButton("Show All Clients");
+        showAllButton.addActionListener(e -> {
+            filterMode = ClientFilterMode.ALL;
+            toggleFilterButton.setText("Show Inactive Clients"); // Reset label
+            showAllButton.setText("Showing All Clients");
+            loadClients(connection);
+        });
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(deleteButton);
-
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.add(formPanel, BorderLayout.CENTER);
-        bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
-        add(bottomPanel, BorderLayout.SOUTH);
-
-        // Load initial data
-        loadClients(connection);
+        buttonPanel.add(toggleFilterButton);
+        buttonPanel.add(showAllButton);
 
         // Event Listeners
         addButton.addActionListener(e -> addClient(connection));
@@ -185,7 +219,55 @@ public class NotificationsTab extends JPanel {
             }
         });
 
+        JPanel topPanel = new JPanel(new FlowLayout());
+        filterField = new JTextField(20);
+        topPanel.add(filterField, BorderLayout.NORTH);
+
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        clientsTable.setRowSorter(sorter);
+        filterField.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { filter(); }
+            public void removeUpdate(DocumentEvent e) { filter(); }
+            public void changedUpdate(DocumentEvent e) { filter(); }
+            private void filter() {
+                String text = filterField.getText();
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+            }
+        });
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(formPanel, BorderLayout.CENTER);
+        bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
+        topPanel.add(new JLabel("Filter: "));
+        add(topPanel, BorderLayout.NORTH);
+        add(bottomPanel, BorderLayout.SOUTH);
+        
+
+
+
+        // Load initial data
+        loadClients(connection);
     }
+
+    private boolean isClientActive(Connection conn, int customerId) {
+    String query = """
+        SELECT COUNT(*) AS active_count
+        FROM orders
+        WHERE customer_id = ? AND shipped_date IS NOT NULL
+    """;
+
+    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setInt(1, customerId);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("active_count") > 0;
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 
     private void loadClients(Connection conn) {
         tableModel.setRowCount(0);
@@ -195,8 +277,16 @@ public class NotificationsTab extends JPanel {
                 ResultSet rs = stmt.executeQuery("SELECT * FROM customers")) {
 
             while (rs.next()) {
+            int customerId = rs.getInt("id");
+
+            boolean isActive = isClientActive(conn, customerId);
+
+            if (filterMode == ClientFilterMode.ACTIVE && !isActive) continue;
+            if (filterMode == ClientFilterMode.INACTIVE && isActive) continue;
+
+
                 Customer customer = new Customer(
-                        rs.getInt("id"),
+                        customerId,
                         rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getString("email_address"),
@@ -221,7 +311,8 @@ public class NotificationsTab extends JPanel {
                         customer.id,
                         customer.firstName + " " + customer.lastName,
                         customer.email,
-                        customer.homePhone
+                        customer.homePhone,
+                        isActive ? "Active" : "Inactive"
                 });
             }
 

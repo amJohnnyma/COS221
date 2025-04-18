@@ -1,5 +1,8 @@
 /media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/GUI.java
-/media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/communicator.java
-/media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/dbmanager.java
+/media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/NotificationsTab.java
+/media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/DatabaseConnector.java
+/media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/ProductsTab.java
+/media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/DBConfig.java
+/media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/EmployeesTab.java
 /media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/Main.java
-/media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/dbconn.java
+/media/johnny/1TB HDD/SCHOOL/2025/COS221/Prac4/Git/COS221/cos221p4/src/main/java/cos/ReportTab.java
